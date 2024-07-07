@@ -15,7 +15,9 @@
     <h2>Bill Buddy</h2>
 
     <div class="button-container">
-        <button class = "button"> View Members</button>
+        <form>
+            <button formaction= '/members' class = "button"> View Members</button>
+        </form>
         <button class = "button"> Log Transaction</button>
         <button class = "button"> Search Transaction</button>
         <button class = "button"> Simplify Debt</button>
@@ -23,6 +25,23 @@
 </nav>
 
 <body>
-    <h2>Current Log</h2>
+    <h1>Current Transactions Log</h1>
+    <ul>
+        {% for member, transactions in graph.items() %}
+            <li>{{ member }}
+                <ul>
+                    {% for to_member, details in transactions.items() %}
+                        <li>Owes {{ to_member }}: {{ details['amount'] }} ({{ details['transactions'] | length }} transactions)
+                            <ul>
+                                {% for amount, reason in details['transactions'] %}
+                                    <li>{{ amount }} for {{ reason }}</li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </li>
+        {% endfor %}
+    </ul>
 </body>
 

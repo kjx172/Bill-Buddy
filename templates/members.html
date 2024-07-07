@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Bill Buddy</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='members.css') }}">>
+</head>
+
+<header>
+    <h1>Add Members</h1>
+    <h3>Settings</h3>
+</header>
+
+<nav>
+    <h2>Bill Buddy</h2>
+
+    <div class="button-container">
+        <form>
+            <button formaction= '/home' class = "button"> Return Home</button>
+        </form>
+        <form>
+            <button formaction= '/add_member' class = "button"> Add Member</button>
+        </form>
+        <form>
+            <button formaction= '/remove_member' class = "button"> Remove Member</button>
+        </form>
+    </div>
+</nav>
+
+<body>
+    <h1>Current Members</h1>
+    <ul>
+        {% for member, transactions in graph.items() %}
+            <li>{{ member }}</li>
+        {% endfor %}
+    </ul>
+</body>

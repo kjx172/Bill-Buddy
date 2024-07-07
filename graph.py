@@ -5,6 +5,15 @@ class Graph:
     def add_member(self, member):
         if member not in self.graph:
             self.graph[member] = {}
+
+    def remove_member(self, member):
+        if member in self.graph:
+            # Remove the member from the graph
+            del self.graph[member]
+            # Remove all references to this member in other members' transactions
+            for from_member in self.graph:
+                if member in self.graph[from_member]:
+                    del self.graph[from_member][member]
     
     def add_transaction(self, from_member, to_member, amount, reason):
         if from_member in self.graph and to_member in self.graph:
@@ -16,6 +25,14 @@ class Graph:
                     'amount': amount,
                     'transactions': [(amount, reason)]
                 }
+
+    def print_members(self):
+        if self.graph:
+            print("Members:")
+            for member in self.graph:
+                print(f"- {member}")
+        else:
+            print("No members in the graph.")
     
     '''
     def simplify_debts(self):
