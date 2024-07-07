@@ -38,10 +38,25 @@ def remove_member():
         return redirect(url_for('members'))
     return render_template('remove_member.html', graph=graph.graph)
 
-@app.route("/log_transaction")
+@app.route("/log_transaction", methods=["GET", "POST"])
 def log_transaction():
-    #add functionality
-    i = 0
+    if request.method == "POST":
+        from_member = request.form.get("from_member")
+        to_member = request.form.get("to_member")
+        amount = float(request.form.get("amount"))
+        reason = request.form.get("reason")
+
+        if from_member == to_member:
+            return render_template('log_transaction.html', error="Members cannot be the same.", graph=graph.graph)
+        
+        if amount <= 0:
+            return render_template('log_transaction.html', error="Amount must be a positive number.", graph=graph.graph)
+
+        if from_member and to_member and amount and reason:
+            graph.add_transaction(from_member, to_member, amount, reason)
+        return redirect(url_for('home'))
+    return render_template('log_transaction.html', graph=graph.graph)
+
 @app.route("/simplify")
 def simplify():
     #add functionality

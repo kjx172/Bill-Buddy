@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log Transaction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='log_transaction.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Log Transaction</h1>
+        {% if error %}
+        <p class="error">{{ error }}</p>
+        {% endif %}
+
+        <form method="POST">
+            <select id="from_member" name="from_member" required>
+                {% for member in graph.keys() %}
+                    <option value="{{ member }}">{{ member }}</option>
+                {% endfor %}
+            </select>
+            
+            <label for="to_member">Owes </label>
+            <select id="to_member" name="to_member" required>
+                {% for member in graph.keys() %}
+                    <option value="{{ member }}">{{ member }}</option>
+                {% endfor %}
+            </select>
+            
+            <label for="amount">Amount:</label>
+            <input type="number" id="amount" name="amount" step="0.01" required>
+            
+            <label for="reason">Reason:</label>
+            <input type="text" id="reason" name="reason" required>
+            
+            <button type="submit">Log Transaction</button>
+        </form>
+        <a href="{{ url_for('home') }}">Return Home</a>
+    </div>
+</body>
+</html>
