@@ -33,6 +33,18 @@ class Graph:
                 print(f"- {member}")
         else:
             print("No members in the graph.")
+
+    def search_transaction(self, phrase):
+        results = []
+
+        for from_member, to_member in self.graph.items():
+            for to_member, details in to_member.items():
+                for transaction in details['transactions']:
+                    if phrase.lower() in transaction[1].lower() or phrase.lower() in from_member.lower():
+                        results.append((from_member, to_member, transaction[0], transaction[1]))
+
+        return results
+
     
     '''
     def simplify_debts(self):

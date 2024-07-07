@@ -57,6 +57,16 @@ def log_transaction():
         return redirect(url_for('home'))
     return render_template('log_transaction.html', graph=graph.graph)
 
+@app.route("/search_transaction")
+def search_transaction():
+    return render_template('search_transaction.html', graph = graph.graph)
+
+@app.route("/search_transaction", methods=["POST"])
+def search():
+    search_input = request.form.get('search_input')
+    search_results = graph.search_transaction(search_input)
+    return render_template('search_transaction.html', results=search_results)
+
 @app.route("/simplify")
 def simplify():
     #add functionality

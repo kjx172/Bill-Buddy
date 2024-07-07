@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Bill Buddy</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='search_transaction.css') }}">
+</head>
+
+<body>
+    <header>
+        <h1>Search Page</h1>
+        <h3>Settings</h3>
+    </header>
+
+    <nav>
+        <h2>Bill Buddy</h2>
+
+        <div class="button-container">
+            <form>
+                <button formaction="/home" class="button"> Return Home</button>
+            </form>
+            <form class="search_bar" action="/search_transaction" method="POST">
+                <label for="search bar">Search Bar:</label>
+                <input type="text" id="search_input" name="search_input" required>
+                <button type="submit" class="search_button">Search</button>
+            </form>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1>Results</h1>
+        <div id="search_results">
+            {% if results %}
+                <ul>
+                    {% for result in results %}
+                        <li>
+                            <p> {{ result[0] }} owes {{ result[1] }} {{ result[2] }} for {{ result[3] }}</p>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No results found.</p>
+            {% endif %}
+        </div>
+    </div>
+
+</body>
+
+</html>
