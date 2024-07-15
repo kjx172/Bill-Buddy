@@ -3,12 +3,25 @@ from graph import Graph
 
 app = Flask(__name__)
 graph = Graph()
+
 #sample graph
 graph.add_member("Alice")
 graph.add_member("Bob")
-graph.add_transaction("Alice", "Bob", 50, "Lunch")
+graph.add_member("Charlie")
+graph.add_member("David")
+graph.add_member("Ema")
+graph.add_member("Fred")
+graph.add_member("Gabe")
+graph.add_transaction("Gabe", "Bob", 30, "Lunch")
+graph.add_transaction("Gabe", "David", 10, "Drinks")
+graph.add_transaction("Fred", "Bob", 10, "Sushi")
+graph.add_transaction("Fred", "Charlie", 30, "Uber")
+graph.add_transaction("Fred", "David", 10, "shirt")
+graph.add_transaction("Fred", "Ema", 10, "Coffee")
+graph.add_transaction("Bob", "Charlie", 40, "couch damage")
+graph.add_transaction("Charlie", "David", 20, "Pizzas")
+graph.add_transaction("David", "Ema", 50, "shoes")
 
-i = 0
 
 #default/ home page
 @app.route("/")
@@ -67,10 +80,10 @@ def search():
     search_results = graph.search_transaction(search_input)
     return render_template('search_transaction.html', results=search_results)
 
-@app.route("/simplify")
+@app.route("/simplified_transactions")
 def simplify():
-    #add functionality
-    i = 0
+    simplified_graph = graph.simplify_debts()
+    return render_template('simplified_transactions.html', graph = simplified_graph)
 
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0")

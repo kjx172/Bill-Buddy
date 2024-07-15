@@ -3,11 +3,11 @@
 
 <head>
     <title>Bill Buddy</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='home.css') }}">>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='simplified_transactions.css') }}">>
 </head>
 
 <header>
-    <h1>Home Page</h1>
+    <h1>Simplified Transactions</h1>
     <h3>Settings</h3>
 </header>
 
@@ -16,28 +16,19 @@
 
     <div class="button-container">
         <form>
-            <button formaction= '/members' class = "button"> View Members</button>
-        </form>
-        <form>
-            <button formaction= '/log_transaction' class = "button"> Log Transaction</button>
-        </form>
-        <form>
-            <button formaction= '/search_transaction' class = "button"> Search Transaction</button>
-        </form>
-        <form>
-            <button formaction= '/simplified_transactions' class = "button"> Simplify Debt</button>
+            <button formaction= '/home' class = "button"> Return Home</button>
         </form>
     </div>
 </nav>
 
 <body>
-    <h1>Current Transactions Log</h1>
+    <h1>Current Members</h1>
     <ul>
         {% for member, transactions in graph.items() %}
             <li>{{ member }}
                 <ul>
                     {% for to_member, details in transactions.items() %}
-                        <li>Owes {{ to_member }}: {{ details['amount'] }} ({{ details['transactions'] | length }} transactions)
+                        <li>Owes {{ to_member }}: {{ details['amount'] }}
                             <ul>
                                 {% for amount, reason in details['transactions'] %}
                                     <li>{{ amount }} for {{ reason }}</li>
@@ -50,4 +41,3 @@
         {% endfor %}
     </ul>
 </body>
-

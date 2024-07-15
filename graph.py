@@ -46,26 +46,50 @@ class Graph:
         return results
 
     
-    '''
+    
     def simplify_debts(self):
-        # This method will contain the logic to simplify debts
-        simplified_graph = {}
+        balance = {}
+
+        # Calculate net balance for each member
         for debtor, creditors in self.graph.items():
             for creditor, details in creditors.items():
                 amount = details['amount']
-                if creditor in self.graph and debtor in self.graph[creditor]:
-                    if self.graph[creditor][debtor]['amount'] > amount:
-                        self.graph[creditor][debtor]['amount'] -= amount
-                        amount = 0
-                    else:
-                        amount -= self.graph[creditor][debtor]['amount']
-                        del self.graph[creditor][debtor]
-                if amount > 0:
-                    if debtor not in simplified_graph:
-                        simplified_graph[debtor] = {}
-                    simplified_graph[debtor][creditor] = {
-                        'amount': amount,
-                        'transactions': details['transactions']
-                    }
-        self.graph = simplified_graph
-    '''
+                if debtor not in balance:
+                    balance[debtor] = 0
+                if creditor not in balance:
+                    balance[creditor] = 0
+                balance[debtor] -= amount
+                balance[creditor] += amount
+
+        # Create lists of debtors and creditors
+        debtors = [member for member in balance if balance[member] < 0]
+        creditors = [member for member in balance if balance[member] > 0]
+
+        # Simplify debts
+        simplified_graph = {}
+        i, j = 0, 0
+        while i < len(debtors) and j < len(creditors):
+            debtor = debtors[i]
+            creditor = creditors[j]
+            debit = -balance[debtor]
+            credit = balance[creditor]
+
+            min_amount = min(debit, credit)
+
+            if debtor not in simplified_graph:
+                simplified_graph[debtor] = {}
+            simplified_graph[debtor][creditor] = {
+                'amount': min_amount,
+            }
+
+            balance[debtor] += min_amount
+            balance[creditor] -= min_amount
+
+            if balance[debtor] == 0:
+                i += 1
+            if balance[creditor] == 0:
+                j += 1
+
+        return simplified_graph
+
+
